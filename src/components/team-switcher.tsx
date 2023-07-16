@@ -29,6 +29,15 @@ import {
 import { cn } from "~/lib/utils";
 import { Label } from "./ui/label";
 import { Input } from "./ui/input";
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
+} from "./ui/select";
 
 const groups = [
   {
@@ -167,13 +176,34 @@ export default function TeamSwitcher({ className }: TeamSwitcherProps) {
               <Label htmlFor="name">Name</Label>
               <Input id="name" placeholder="i.e. Subway" />
             </div>
-            <div className="space-y-2">
-              <Label htmlFor="city">City</Label>
-              <Input id="city" placeholder="i.e. Los Angeles" />
+            <div className="flex gap-3">
+              <div className="space-y-2 flex-1">
+                <Label htmlFor="city">City</Label>
+                <Input id="city" placeholder="i.e. Los Angeles" />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="state">State</Label>
+                <Input id="state" placeholder="i.e. CA" />
+              </div>
             </div>
             <div className="space-y-2">
-              <Label htmlFor="state">State</Label>
-              <Input id="state" placeholder="i.e. CA" />
+              <Label htmlFor="state">When does your week start?</Label>
+              <Select defaultValue="3">
+                <SelectTrigger className="w-full">
+                  <SelectValue placeholder="Select an ending weekday" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectGroup>
+                    <SelectItem value="0">Sunday</SelectItem>
+                    <SelectItem value="1">Monday</SelectItem>
+                    <SelectItem value="2">Tuesday</SelectItem>
+                    <SelectItem value="3">Wednesday</SelectItem>
+                    <SelectItem value="4">Thursday</SelectItem>
+                    <SelectItem value="5">Friday</SelectItem>
+                    <SelectItem value="6">Saterday</SelectItem>
+                  </SelectGroup>
+                </SelectContent>
+              </Select>
             </div>
           </div>
         </div>
