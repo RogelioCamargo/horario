@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { cn } from "~/lib/utils";
 
 export function MainNav({
@@ -20,8 +21,8 @@ export function MainNav({
         Overview
       </Link>
       <Link
-        href="/"
-        className="text-sm font-medium text-muted-foreground transition-colors hover:text-primary"
+        href="/settings"
+        className="text-sm font-medium transition-colors hover:text-primary"
       >
         Settings
       </Link>
