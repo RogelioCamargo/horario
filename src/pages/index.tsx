@@ -10,7 +10,13 @@ import { MainNav } from "~/components/main-nav";
 import TeamSwitcher from "~/components/team-switcher";
 import { Button } from "~/components/ui/button";
 import { Calendar } from "~/components/ui/calendar";
-import { addDays, format } from "date-fns";
+import {
+  addDays,
+  eachDayOfInterval,
+  format,
+  nextTuesday,
+  subDays,
+} from "date-fns";
 import {
   Popover,
   PopoverContent,
@@ -28,7 +34,7 @@ import {
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "~/components/ui/tabs";
 import { UserNav } from "~/components/user-nav";
 import { cn } from "~/lib/utils";
-import { DateRange } from "react-day-picker";
+import type { DateRange } from "react-day-picker";
 import { ThemeToggle } from "~/components/theme-toggle";
 
 const shifts = [
@@ -55,9 +61,15 @@ const shifts = [
 ];
 
 export default function Home() {
+  const endOfWeekDate = nextTuesday(new Date());
+  const startOfWeekDate = subDays(endOfWeekDate, 6);
+  const weekDates = eachDayOfInterval({
+    start: startOfWeekDate,
+    end: endOfWeekDate,
+  });
   const [date, setDate] = React.useState<DateRange | undefined>({
-    from: new Date(2022, 0, 20),
-    to: addDays(new Date(2022, 0, 20), 7),
+    from: startOfWeekDate,
+    to: endOfWeekDate,
   });
 
   return (
@@ -153,13 +165,11 @@ export default function Home() {
                   <TableHeader>
                     <TableRow>
                       <TableHead className="text-left">Employee</TableHead>
-                      <TableHead>{new Date().toDateString()}</TableHead>
-                      <TableHead>{new Date().toDateString()}</TableHead>
-                      <TableHead>{new Date().toDateString()}</TableHead>
-                      <TableHead>{new Date().toDateString()}</TableHead>
-                      <TableHead>{new Date().toDateString()}</TableHead>
-                      <TableHead>{new Date().toDateString()}</TableHead>
-                      <TableHead>{new Date().toDateString()}</TableHead>
+                      {weekDates.map((weekDate) => (
+                        <TableHead key={weekDate.toString()}>
+                          {format(weekDate, "iii LLL dd, y")}
+                        </TableHead>
+                      ))}
                     </TableRow>
                   </TableHeader>
                   <TableBody>
