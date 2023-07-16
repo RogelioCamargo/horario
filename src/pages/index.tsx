@@ -164,10 +164,14 @@ export default function Home() {
                   </TableCaption>
                   <TableHeader>
                     <TableRow>
-                      <TableHead className="text-left">Employee</TableHead>
+                      <TableHead className="text-left">
+                        <div className="w-36">Employee</div>
+                      </TableHead>
                       {weekDates.map((weekDate) => (
                         <TableHead key={weekDate.toString()}>
-                          {format(weekDate, "iii LLL dd, y")}
+                          <div className="w-36">
+                            {format(weekDate, "iii LLL dd, y")}
+                          </div>
                         </TableHead>
                       ))}
                     </TableRow>
