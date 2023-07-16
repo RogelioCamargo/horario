@@ -169,26 +169,26 @@ export default function TeamSwitcher({ className }: TeamSwitcherProps) {
         <div>
           <div className="space-y-4 py-2 pb-4">
             <div className="space-y-2">
-              <Label htmlFor="store_id">ID</Label>
-              <Input id="store_id" type="number" placeholder="i.e. 2400" />
+              <Label htmlFor="storeId">ID</Label>
+              <Input id="storeId" name="storeId" type="number" placeholder="i.e. 2400" />
             </div>
             <div className="space-y-2">
               <Label htmlFor="name">Name</Label>
-              <Input id="name" placeholder="i.e. Subway" />
+              <Input id="name" name="name" placeholder="i.e. Subway" />
             </div>
             <div className="flex gap-3">
-              <div className="space-y-2 flex-1">
+              <div className="flex-1 space-y-2">
                 <Label htmlFor="city">City</Label>
-                <Input id="city" placeholder="i.e. Los Angeles" />
+                <Input id="city" name="city" placeholder="i.e. Los Angeles" />
               </div>
               <div className="space-y-2">
                 <Label htmlFor="state">State</Label>
-                <Input id="state" placeholder="i.e. CA" />
+                <Input id="state" name="state" placeholder="i.e. CA" />
               </div>
             </div>
             <div className="space-y-2">
-              <Label htmlFor="state">When does your week start?</Label>
-              <Select defaultValue="3">
+              <Label htmlFor="weekdayStart">When does your week start?</Label>
+              <Select defaultValue="3" name="weekdayStart">
                 <SelectTrigger className="w-full">
                   <SelectValue placeholder="Select an ending weekday" />
                 </SelectTrigger>

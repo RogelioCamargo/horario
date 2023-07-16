@@ -24,35 +24,38 @@ import { useForm } from "react-hook-form";
 import * as z from "zod";
 import { Button } from "~/components/ui/button";
 
-const profileFormSchema = z.object({
-  username: z
-    .string()
-    .min(2, {
-      message: "Username must be at least 2 characters.",
-    })
-    .max(30, {
-      message: "Username must not be longer than 30 characters.",
-    }),
-  email: z
-    .string({
-      required_error: "Please select an email to display.",
-    })
-    .email(),
-  bio: z.string().max(160).min(4),
+const storeFormSchema = z.object({
+  storeId: z.string({
+    required_error: "Store ID is required.",
+  }),
+  name: z.string({
+    required_error: "Store name is required.",
+  }),
+  city: z.string({
+    required_error: "Store city is required.",
+  }),
+  state: z.string({
+    required_error: "Store state is required.",
+  }),
+  weekdayStart: z.string({
+    required_error: "Weekday start is required.",
+  }),
 });
 
-type ProfileFormValues = z.infer<typeof profileFormSchema>;
+type ProfileFormValues = z.infer<typeof storeFormSchema>;
 
 // This can come from your database or API.
 const defaultValues: Partial<ProfileFormValues> = {
-  username: "rcamargo",
-  email: "rcamargo@ucsd.edu",
-  bio: "I own a computer.",
+  storeId: "2400",
+  name: "Subway",
+  city: "Campbell",
+  state: "CA",
+  weekdayStart: "0",
 };
 
 export function StoreDetailsForm() {
   const form = useForm<ProfileFormValues>({
-    resolver: zodResolver(profileFormSchema),
+    resolver: zodResolver(storeFormSchema),
     defaultValues,
     mode: "onChange",
   });
@@ -73,16 +76,15 @@ export function StoreDetailsForm() {
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
         <FormField
           control={form.control}
-          name="username"
+          name="storeId"
           render={({ field }) => (
             <FormItem>
               <FormLabel>Username</FormLabel>
               <FormControl>
-                <Input placeholder="shadcn" {...field} />
+                <Input type="number" placeholder="i.e. 2400" {...field} />
               </FormControl>
               <FormDescription>
-                This is your public display name. It can be your real name or a
-                pseudonym. You can only change this once every 30 days.
+                This is a unique identifier for your store.
               </FormDescription>
               <FormMessage />
             </FormItem>
@@ -90,10 +92,53 @@ export function StoreDetailsForm() {
         />
         <FormField
           control={form.control}
-          name="email"
+          name="name"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Email</FormLabel>
+              <FormLabel>Name</FormLabel>
+              <FormControl>
+                <Input placeholder="i.e. Subway" {...field} />
+              </FormControl>
+              <FormDescription>This the name of your store.</FormDescription>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <div className="flex gap-3">
+          <FormField
+            control={form.control}
+            name="city"
+            render={({ field }) => (
+              <FormItem className="flex-1">
+                <FormLabel>City</FormLabel>
+                <FormControl>
+                  <Input placeholder="i.e. Campbell" {...field} />
+                </FormControl>
+								<FormDescription>This the location of your store.</FormDescription>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="state"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>State</FormLabel>
+                <FormControl>
+                  <Input placeholder="i.e. CA" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        </div>
+        <FormField
+          control={form.control}
+          name="weekdayStart"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>When does your week start?</FormLabel>
               <Select onValueChange={field.onChange} defaultValue={field.value}>
                 <FormControl>
                   <SelectTrigger>
@@ -101,41 +146,26 @@ export function StoreDetailsForm() {
                   </SelectTrigger>
                 </FormControl>
                 <SelectContent>
-                  <SelectItem value="m@example.com">m@example.com</SelectItem>
-                  <SelectItem value="m@google.com">m@google.com</SelectItem>
-                  <SelectItem value="m@support.com">m@support.com</SelectItem>
+                  <SelectItem value="0">Sunday</SelectItem>
+                  <SelectItem value="1">Monday</SelectItem>
+                  <SelectItem value="2">Tuesday</SelectItem>
+                  <SelectItem value="3">Wednesday</SelectItem>
+                  <SelectItem value="4">Thursday</SelectItem>
+                  <SelectItem value="5">Friday</SelectItem>
+                  <SelectItem value="6">Saterday</SelectItem>
                 </SelectContent>
               </Select>
               <FormDescription>
-                You can manage verified email addresses in your{" "}
-                <Link href="/examples/forms">email settings</Link>.
+                It&apos;s important to select the correct week start for your business.
               </FormDescription>
               <FormMessage />
             </FormItem>
           )}
         />
-        <FormField
-          control={form.control}
-          name="bio"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Bio</FormLabel>
-              <FormControl>
-                <Textarea
-                  placeholder="Tell us a little bit about yourself"
-                  className="resize-none"
-                  {...field}
-                />
-              </FormControl>
-              <FormDescription>
-                You can <span>@mention</span> other users and organizations to
-                link to them.
-              </FormDescription>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <Button type="submit">Update details</Button>
+
+        <Button className="w-40" type="submit">
+          Update
+        </Button>
       </form>
     </Form>
   );
