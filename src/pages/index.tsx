@@ -14,6 +14,7 @@ import {
   addDays,
   eachDayOfInterval,
   format,
+  isToday,
   nextTuesday,
   subDays,
 } from "date-fns";
@@ -41,22 +42,18 @@ const shifts = [
   {
     id: 1,
     employee: "Camargo, Juan",
-    shift: "7AM - 3PM",
   },
   {
     id: 2,
     employee: "Isidoro, Ana",
-    shift: "7AM - 3PM",
   },
   {
     id: 3,
     employee: "Sanchez, Leyla",
-    shift: "3PM - 10PM",
   },
   {
     id: 4,
     employee: "T, Alejandra",
-    shift: "3PM - 10PM",
   },
 ];
 
@@ -109,17 +106,18 @@ export default function Home() {
               <TabsContent value="overview" className="space-y-4">
                 <div className="flex justify-between">
                   <div className="flex items-end gap-1 md:items-center">
-                    <Button variant="ghost" className="h-8 w-8 p-0">
+                    <Button
+                      variant="ghost"
+                      className="h-8 w-8 p-0"
+                      onClick={() => {
+                        setDate({
+                          from: subDays(startOfWeekDate, 7),
+                          to: subDays(startOfWeekDate, 1),
+                        });
+                      }}
+                    >
                       <span className="sr-only">Go to previous page</span>
-                      <ChevronLeftIcon
-                        className="h-4 w-4"
-                        onClick={() => {
-                          setDate({
-                            from: subDays(startOfWeekDate, 7),
-                            to: subDays(startOfWeekDate, 1),
-                          });
-                        }}
-                      />
+                      <ChevronLeftIcon className="h-4 w-4" />
                     </Button>
                     <div className="hidden gap-2 md:grid">
                       <Popover>
@@ -159,17 +157,18 @@ export default function Home() {
                         </PopoverContent>
                       </Popover>
                     </div>
-                    <Button variant="ghost" className="h-8 w-8 p-0">
+                    <Button
+                      variant="ghost"
+                      className="h-8 w-8 p-0"
+                      onClick={() => {
+                        setDate({
+                          from: addDays(endOfWeekDate, 1),
+                          to: addDays(endOfWeekDate, 7),
+                        });
+                      }}
+                    >
                       <span className="sr-only">Go to next page</span>
-                      <ChevronRightIcon
-                        className="h-4 w-4"
-                        onClick={() => {
-                          setDate({
-                            from: addDays(endOfWeekDate, 1),
-                            to: addDays(endOfWeekDate, 7),
-                          });
-                        }}
-                      />
+                      <ChevronRightIcon className="h-4 w-4" />
                     </Button>
                   </div>
                   <Button>
@@ -187,10 +186,17 @@ export default function Home() {
                       <TableHead className="text-left">
                         <div className="w-36">Employee</div>
                       </TableHead>
-                      {weekDates.map((weekDate) => (
-                        <TableHead key={weekDate.toString()}>
+                      {weekDates.map((date) => (
+                        <TableHead
+                          className={
+                            isToday(date)
+                              ? "bg-secondary text-secondary-foreground"
+                              : ""
+                          }
+                          key={date.toString()}
+                        >
                           <div className="w-36">
-                            {format(weekDate, "iii LLL dd, y")}
+                            {format(date, "iii LLL dd, y")}
                           </div>
                         </TableHead>
                       ))}
@@ -202,13 +208,14 @@ export default function Home() {
                         <TableCell className="text-left font-medium">
                           {shift.employee}
                         </TableCell>
-                        <TableCell>{shift.shift}</TableCell>
-                        <TableCell>{shift.shift}</TableCell>
-                        <TableCell>{shift.shift}</TableCell>
-                        <TableCell>{shift.shift}</TableCell>
-                        <TableCell>{shift.shift}</TableCell>
-                        <TableCell>{shift.shift}</TableCell>
-                        <TableCell>{shift.shift}</TableCell>
+                        {[0, 1, 2, 3, 4, 5, 6].map((index) => (
+                          <TableCell
+                            key={index}
+                            className="text-muted-foreground"
+                          >
+                            + Shift
+                          </TableCell>
+                        ))}
                       </TableRow>
                     ))}
                   </TableBody>
