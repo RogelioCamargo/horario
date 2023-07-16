@@ -29,35 +29,28 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "~/components/ui/tabs";
 import { UserNav } from "~/components/user-nav";
 import { cn } from "~/lib/utils";
 import { DateRange } from "react-day-picker";
+import { ThemeToggle } from "~/components/theme-toggle";
 
 const shifts = [
   {
     id: 1,
     employee: "Camargo, Juan",
-    paymentStatus: "7AM - 3PM",
-    totalAmount: "7AM - 3PM",
-    paymentMethod: "7AM - 3PM",
+    shift: "7AM - 3PM",
   },
   {
     id: 2,
     employee: "Isidoro, Ana",
-    paymentStatus: "7AM - 3PM",
-    totalAmount: "7AM - 3PM",
-    paymentMethod: "7AM - 3PM",
+    shift: "7AM - 3PM",
   },
   {
     id: 3,
     employee: "Sanchez, Leyla",
-    paymentStatus: "3PM - 10PM",
-    totalAmount: "3PM - 10PM",
-    paymentMethod: "3PM - 10PM",
+    shift: "3PM - 10PM",
   },
   {
     id: 4,
     employee: "T, Alejandra",
-    paymentStatus: "3PM - 10PM",
-    totalAmount: "3PM - 10PM",
-    paymentMethod: "3PM - 10PM",
+    shift: "3PM - 10PM",
   },
 ];
 
@@ -80,7 +73,8 @@ export default function Home() {
             <div className="container flex h-16 items-center px-4">
               <TeamSwitcher />
               <MainNav className="mx-6" />
-              <div className="ml-auto flex items-center space-x-4">
+              <div className="ml-auto flex items-center space-x-1">
+                <ThemeToggle />
                 <UserNav />
               </div>
             </div>
@@ -98,12 +92,12 @@ export default function Home() {
               </TabsList>
               <TabsContent value="overview" className="space-y-4">
                 <div className="flex justify-between">
-                  <div className="flex gap-1 items-center">
+                  <div className="flex items-end gap-1 md:items-center">
                     <Button variant="ghost" className="h-8 w-8 p-0">
                       <span className="sr-only">Go to previous page</span>
                       <ChevronLeftIcon className="h-4 w-4" />
                     </Button>
-                    <div className="grid gap-2">
+                    <div className="hidden gap-2 md:grid">
                       <Popover>
                         <PopoverTrigger asChild>
                           <Button
@@ -152,15 +146,13 @@ export default function Home() {
                   </Button>
                 </div>
                 <Table>
-                  <TableCaption>
+                  <TableCaption className="pb-5">
                     Modify the shifts for the specified employees by adding or
                     removing them.
                   </TableCaption>
                   <TableHeader>
                     <TableRow>
-                      <TableHead className="w-[200px] text-left">
-                        Employee
-                      </TableHead>
+                      <TableHead className="text-left">Employee</TableHead>
                       <TableHead>{new Date().toDateString()}</TableHead>
                       <TableHead>{new Date().toDateString()}</TableHead>
                       <TableHead>{new Date().toDateString()}</TableHead>
@@ -176,13 +168,13 @@ export default function Home() {
                         <TableCell className="text-left font-medium">
                           {shift.employee}
                         </TableCell>
-                        <TableCell>{shift.paymentStatus}</TableCell>
-                        <TableCell>{shift.paymentMethod}</TableCell>
-                        <TableCell>{shift.totalAmount}</TableCell>
-                        <TableCell>{shift.paymentStatus}</TableCell>
-                        <TableCell>{shift.paymentMethod}</TableCell>
-                        <TableCell>{shift.totalAmount}</TableCell>
-                        <TableCell>{shift.totalAmount}</TableCell>
+                        <TableCell>{shift.shift}</TableCell>
+                        <TableCell>{shift.shift}</TableCell>
+                        <TableCell>{shift.shift}</TableCell>
+                        <TableCell>{shift.shift}</TableCell>
+                        <TableCell>{shift.shift}</TableCell>
+                        <TableCell>{shift.shift}</TableCell>
+                        <TableCell>{shift.shift}</TableCell>
                       </TableRow>
                     ))}
                   </TableBody>
