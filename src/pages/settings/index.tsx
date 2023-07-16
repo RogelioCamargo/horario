@@ -10,7 +10,7 @@ import { StoreDetailsForm } from "./details-form";
 const sidebarNavItems = [
   {
     title: "Details",
-    href: "/settings/",
+    href: "/settings",
   },
   {
     title: "Employees",
