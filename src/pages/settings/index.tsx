@@ -5,7 +5,7 @@ import TeamSwitcher from "~/components/team-switcher";
 import { ThemeToggle } from "~/components/theme-toggle";
 import { Separator } from "~/components/ui/separator";
 import { UserNav } from "~/components/user-nav";
-import { StoreDetailsForm } from "./details-form";
+import { StoreDetailsForm } from "./_details-form";
 
 const sidebarNavItems = [
   {
