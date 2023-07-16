@@ -27,20 +27,13 @@ import {
   CommandSeparator,
 } from "./ui/command";
 import { cn } from "~/lib/utils";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "./ui/select";
 import { Label } from "./ui/label";
 import { Input } from "./ui/input";
 
 const groups = [
   {
     label: "Stores",
-    teams: [
+    stores: [
       {
         label: "2400 - Cambell, CA",
         value: "2400-subway",
@@ -61,7 +54,7 @@ const groups = [
   },
 ];
 
-type Team = (typeof groups)[number]["teams"][number];
+type Store = (typeof groups)[number]["stores"][number];
 
 type PopoverTriggerProps = React.ComponentPropsWithoutRef<
   typeof PopoverTrigger
@@ -73,7 +66,7 @@ interface TeamSwitcherProps extends PopoverTriggerProps {}
 export default function TeamSwitcher({ className }: TeamSwitcherProps) {
   const [open, setOpen] = React.useState(false);
   const [showNewTeamDialog, setShowNewTeamDialog] = React.useState(false);
-  const [selectedTeam, setSelectedTeam] = React.useState<Team>({
+  const [selectedStore, setSelectedStore] = React.useState<Store>({
     label: "2400 - Cambell, CA",
     value: "2400-subway",
   });
@@ -91,44 +84,44 @@ export default function TeamSwitcher({ className }: TeamSwitcherProps) {
           >
             <Avatar className="mr-2 h-5 w-5">
               <AvatarImage
-                src={`https://avatar.vercel.sh/${selectedTeam.value}.png`}
-                alt={selectedTeam.label}
+                src={`https://avatar.vercel.sh/${selectedStore.value}.png`}
+                alt={selectedStore.label}
               />
-              <AvatarFallback>SC</AvatarFallback>
+              <AvatarFallback>SN</AvatarFallback>
             </Avatar>
-            {selectedTeam.label}
+            {selectedStore.label}
             <CaretSortIcon className="ml-auto h-4 w-4 shrink-0 opacity-50" />
           </Button>
         </PopoverTrigger>
         <PopoverContent className="w-[250px] p-0">
           <Command>
             <CommandList>
-              <CommandInput placeholder="Search team..." />
-              <CommandEmpty>No team found.</CommandEmpty>
+              <CommandInput placeholder="Search store..." />
+              <CommandEmpty>No store found.</CommandEmpty>
               {groups.map((group) => (
                 <CommandGroup key={group.label} heading={group.label}>
-                  {group.teams.map((team) => (
+                  {group.stores.map((store) => (
                     <CommandItem
-                      key={team.value}
+                      key={store.value}
                       onSelect={() => {
-                        setSelectedTeam(team);
+                        setSelectedStore(store);
                         setOpen(false);
                       }}
                       className="text-sm"
                     >
                       <Avatar className="mr-2 h-5 w-5">
                         <AvatarImage
-                          src={`https://avatar.vercel.sh/${team.value}.png`}
-                          alt={team.label}
+                          src={`https://avatar.vercel.sh/${store.value}.png`}
+                          alt={store.label}
                           className="grayscale"
                         />
-                        <AvatarFallback>SC</AvatarFallback>
+                        <AvatarFallback>SN</AvatarFallback>
                       </Avatar>
-                      {team.label}
+                      {store.label}
                       <CheckIcon
                         className={cn(
                           "ml-auto h-4 w-4",
-                          selectedTeam.value === team.value
+                          selectedStore.value === store.value
                             ? "opacity-100"
                             : "opacity-0"
                         )}
@@ -159,38 +152,28 @@ export default function TeamSwitcher({ className }: TeamSwitcherProps) {
       </Popover>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>Create team</DialogTitle>
+          <DialogTitle>Create store</DialogTitle>
           <DialogDescription>
-            Add a new team to manage products and customers.
+            Add a new store to manage employees and shifts.
           </DialogDescription>
         </DialogHeader>
         <div>
           <div className="space-y-4 py-2 pb-4">
             <div className="space-y-2">
-              <Label htmlFor="name">Team name</Label>
-              <Input id="name" placeholder="Acme Inc." />
+              <Label htmlFor="store_id">ID</Label>
+              <Input id="store_id" type="number" placeholder="i.e. 2400" />
             </div>
             <div className="space-y-2">
-              <label htmlFor="plan">Subscription plan</label>
-              <Select>
-                <SelectTrigger>
-                  <SelectValue placeholder="Select a plan" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="free">
-                    <span className="font-medium">Free</span> -{" "}
-                    <span className="text-muted-foreground">
-                      Trial for two weeks
-                    </span>
-                  </SelectItem>
-                  <SelectItem value="pro">
-                    <span className="font-medium">Pro</span> -{" "}
-                    <span className="text-muted-foreground">
-                      $9/month per user
-                    </span>
-                  </SelectItem>
-                </SelectContent>
-              </Select>
+              <Label htmlFor="name">Name</Label>
+              <Input id="name" placeholder="i.e. Subway" />
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="city">City</Label>
+              <Input id="city" placeholder="i.e. Los Angeles" />
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="state">State</Label>
+              <Input id="state" placeholder="i.e. CA" />
             </div>
           </div>
         </div>
@@ -198,7 +181,9 @@ export default function TeamSwitcher({ className }: TeamSwitcherProps) {
           <Button variant="outline" onClick={() => setShowNewTeamDialog(false)}>
             Cancel
           </Button>
-          <Button type="submit">Continue</Button>
+          <Button type="submit" className="md: mb-3">
+            Submit
+          </Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>
