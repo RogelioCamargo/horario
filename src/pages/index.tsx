@@ -15,6 +15,7 @@ import {
   eachDayOfInterval,
   format,
   nextTuesday,
+  set,
   subDays,
 } from "date-fns";
 import {
@@ -61,15 +62,19 @@ const shifts = [
 ];
 
 export default function Home() {
-  const endOfWeekDate = nextTuesday(new Date());
-  const startOfWeekDate = subDays(endOfWeekDate, 6);
+  const defaultEndDate = nextTuesday(new Date());
+  const defaultStartDate = subDays(defaultEndDate, 6);
+
+  const [date, setDate] = React.useState<DateRange | undefined>({
+    from: defaultStartDate,
+    to: defaultEndDate,
+  });
+  const startOfWeekDate = date?.from || defaultStartDate;
+  const endOfWeekDate = date?.to || defaultEndDate;
+
   const weekDates = eachDayOfInterval({
     start: startOfWeekDate,
     end: endOfWeekDate,
-  });
-  const [date, setDate] = React.useState<DateRange | undefined>({
-    from: startOfWeekDate,
-    to: endOfWeekDate,
   });
 
   return (
@@ -107,7 +112,15 @@ export default function Home() {
                   <div className="flex items-end gap-1 md:items-center">
                     <Button variant="ghost" className="h-8 w-8 p-0">
                       <span className="sr-only">Go to previous page</span>
-                      <ChevronLeftIcon className="h-4 w-4" />
+                      <ChevronLeftIcon
+                        className="h-4 w-4"
+                        onClick={() => {
+                          setDate({
+                            from: subDays(startOfWeekDate, 7),
+                            to: subDays(startOfWeekDate, 1),
+                          });
+                        }}
+                      />
                     </Button>
                     <div className="hidden gap-2 md:grid">
                       <Popover>
@@ -149,7 +162,15 @@ export default function Home() {
                     </div>
                     <Button variant="ghost" className="h-8 w-8 p-0">
                       <span className="sr-only">Go to next page</span>
-                      <ChevronRightIcon className="h-4 w-4" />
+                      <ChevronRightIcon
+                        className="h-4 w-4"
+                        onClick={() => {
+                          setDate({
+                            from: addDays(endOfWeekDate, 1),
+                            to: addDays(endOfWeekDate, 7),
+                          });
+                        }}
+                      />
                     </Button>
                   </div>
                   <Button>
