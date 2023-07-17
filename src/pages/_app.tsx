@@ -3,12 +3,17 @@ import { api } from "~/utils/api";
 import { ThemeProvider } from "next-themes";
 import "~/styles/globals.css";
 import { Toaster } from "~/components/ui/toaster";
+import { ClerkProvider } from "@clerk/nextjs";
 
 const MyApp: AppType = ({ Component, pageProps }) => {
   return (
     <ThemeProvider attribute="class">
-      <Component {...pageProps} />
-			<Toaster />
+      <ClerkProvider
+        {...pageProps}
+      >
+        <Component {...pageProps} />
+        <Toaster />
+      </ClerkProvider>
     </ThemeProvider>
   );
 };

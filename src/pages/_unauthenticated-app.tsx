@@ -1,3 +1,4 @@
+import { SignIn, SignInButton } from "@clerk/nextjs";
 import Link from "next/link";
 import { Button } from "~/components/ui/button";
 
@@ -39,7 +40,9 @@ export default function UnauthenticatedApp() {
             service, which will redirect you accordingly.
           </p>
         </div>
-        <Button>Continue</Button>
+        <SignInButton>
+          <Button>Continue</Button>
+        </SignInButton>
         <p className="px-8 text-center text-sm text-muted-foreground">
           By clicking continue, you agree to our{" "}
           <Link
