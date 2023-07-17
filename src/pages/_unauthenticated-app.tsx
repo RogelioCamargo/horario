@@ -40,7 +40,7 @@ export default function UnauthenticatedApp() {
             service, which will redirect you accordingly.
           </p>
         </div>
-        <SignInButton>
+        <SignInButton afterSignInUrl="/">
           <Button>Continue</Button>
         </SignInButton>
         <p className="px-8 text-center text-sm text-muted-foreground">
