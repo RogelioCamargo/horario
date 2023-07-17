@@ -4,7 +4,7 @@ import { ThemeProvider } from "next-themes";
 import "~/styles/globals.css";
 import { Toaster } from "~/components/ui/toaster";
 import { ClerkProvider, SignedIn, SignedOut } from "@clerk/nextjs";
-import UnauthenticatedApp from "./_unauthenticated-app";
+import SignIn from "./_sign-in";
 
 const MyApp: AppType = ({ Component, pageProps }) => {
   return (
@@ -15,7 +15,7 @@ const MyApp: AppType = ({ Component, pageProps }) => {
           <Toaster />
         </SignedIn>
         <SignedOut>
-          <UnauthenticatedApp />
+          <SignIn />
         </SignedOut>
       </ClerkProvider>
     </ThemeProvider>
