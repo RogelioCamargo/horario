@@ -13,26 +13,21 @@ import {
 
 export function UserNav() {
   const { user } = useUser();
-  const abbreviation =
-    (user?.firstName || "").slice(0, 1) + (user?.lastName || "").slice(0, 1);
+  console.log(user);
 
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Button variant="ghost" className="relative h-8 w-8 rounded-full">
           <Avatar className="h-8 w-8">
-            <AvatarImage src={user?.imageUrl} alt="account profile" />
-            <AvatarFallback>{abbreviation}</AvatarFallback>
+            <AvatarFallback>P</AvatarFallback>
           </Avatar>
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="w-56" align="end" forceMount>
         <DropdownMenuLabel className="font-normal">
           <div className="flex flex-col space-y-1">
-            <p className="text-sm font-medium leading-none">{user?.fullName}</p>
-            <p className="text-xs leading-none text-muted-foreground">
-              {user?.primaryEmailAddress?.emailAddress}
-            </p>
+            <p className="text-sm leading-none">{user?.username}</p>
           </div>
         </DropdownMenuLabel>
         <DropdownMenuSeparator />
