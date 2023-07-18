@@ -51,8 +51,8 @@ export const columns: ColumnDef<Store>[] = [
         </div>
       );
     },
-    enableSorting: false,
-    enableHiding: false,
+    enableSorting: true,
+    enableHiding: true,
   },
   {
     accessorKey: "city",
@@ -62,8 +62,8 @@ export const columns: ColumnDef<Store>[] = [
     cell: ({ row }) => {
       <div className="max-w-[120px] font-medium">{row.getValue("city")}</div>;
     },
-    enableSorting: false,
-    enableHiding: false,
+    enableSorting: true,
+    enableHiding: true,
   },
   {
     accessorKey: "state",
@@ -73,8 +73,8 @@ export const columns: ColumnDef<Store>[] = [
     cell: ({ row }) => {
       <div className="max-w-[120px] font-medium">{row.getValue("state")}</div>;
     },
-    enableSorting: false,
-    enableHiding: false,
+    enableSorting: true,
+    enableHiding: true,
   },
   {
     id: "actions",
