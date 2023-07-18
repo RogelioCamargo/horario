@@ -10,6 +10,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "./ui/dropdown-menu";
+import Link from "next/link";
 
 export function UserNav() {
   const { user } = useUser();
@@ -31,8 +32,12 @@ export function UserNav() {
         </DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuGroup>
-          <DropdownMenuItem>Stores</DropdownMenuItem>
-          <DropdownMenuItem>Employees</DropdownMenuItem>
+          <Link href="/">
+            <DropdownMenuItem>Stores</DropdownMenuItem>
+          </Link>
+          <Link href="/employees">
+            <DropdownMenuItem>Employees</DropdownMenuItem>
+          </Link>
         </DropdownMenuGroup>
         <DropdownMenuSeparator />
         <SignOutButton>

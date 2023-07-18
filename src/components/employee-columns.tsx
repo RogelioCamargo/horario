@@ -2,10 +2,10 @@ import { type ColumnDef } from "@tanstack/react-table";
 
 import { DataTableColumnHeader } from "./data-table-column-header";
 import { DataTableRowActions } from "./data-table-row-actions";
-import { type Store } from "@prisma/client";
 import { Checkbox } from "./ui/checkbox";
+import { type Employee } from "@prisma/client";
 
-export const storeColumns: ColumnDef<Store>[] = [
+export const employeeColumns: ColumnDef<Employee>[] = [
   {
     id: "select",
     header: ({ table }) => (
@@ -28,13 +28,13 @@ export const storeColumns: ColumnDef<Store>[] = [
     enableHiding: false,
   },
   {
-    accessorKey: "storeId",
+    accessorKey: "employeeId",
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Store" />
+      <DataTableColumnHeader column={column} title="Employee" />
     ),
     cell: ({ row }) => {
-      const storeId: string = row.getValue("storeId");
-      return <div className="w-[100px]">{`STORE-${storeId}`}</div>;
+      const employeeId: string = row.getValue("employeeId");
+      return <div className="w-[120px]">{`EMPLOYEE-${employeeId}`}</div>;
     },
     enableSorting: false,
     enableHiding: false,
@@ -50,28 +50,6 @@ export const storeColumns: ColumnDef<Store>[] = [
           {row.getValue("name")}
         </div>
       );
-    },
-    enableSorting: true,
-    enableHiding: true,
-  },
-  {
-    accessorKey: "city",
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="City" />
-    ),
-    cell: ({ row }) => {
-      <div className="max-w-[120px] font-medium">{row.getValue("city")}</div>;
-    },
-    enableSorting: true,
-    enableHiding: true,
-  },
-  {
-    accessorKey: "state",
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="State" />
-    ),
-    cell: ({ row }) => {
-      <div className="max-w-[120px] font-medium">{row.getValue("state")}</div>;
     },
     enableSorting: true,
     enableHiding: true,

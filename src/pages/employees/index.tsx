@@ -3,7 +3,7 @@ import React from "react";
 import { UserNav } from "~/components/user-nav";
 import { ThemeToggle } from "~/components/theme-toggle";
 import { DataTable } from "~/components/data-table";
-import { storeColumns } from "~/components/store-columns";
+import { employeeColumns } from "~/components/employee-columns";
 import Link from "next/link";
 
 export default function Home() {
@@ -41,12 +41,13 @@ export default function Home() {
           </div>
           <div className="container flex-1 space-y-8 p-8 pt-6">
             <div>
-              <h2 className="text-2xl font-bold tracking-tight">Stores</h2>
+              <h2 className="text-2xl font-bold tracking-tight">Employees</h2>
               <p className="text-muted-foreground">
-                Select any of your stores to start making schedules.
+                Select any of your employees to view their schedule or update
+                their settings.
               </p>
             </div>
-            <DataTable columns={storeColumns} data={[]} />
+            <DataTable columns={employeeColumns} data={[]} />
           </div>
         </div>
       </main>
