@@ -13,7 +13,6 @@ import {
 
 export function UserNav() {
   const { user } = useUser();
-  console.log(user);
 
   return (
     <DropdownMenu>

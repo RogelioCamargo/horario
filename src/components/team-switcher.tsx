@@ -37,32 +37,9 @@ import {
   SelectTrigger,
   SelectValue,
 } from "./ui/select";
+import type { Store } from "@prisma/client";
 
-const groups = [
-  {
-    label: "Stores",
-    stores: [
-      {
-        label: "2400 - Cambell, CA",
-        value: "2400-subway",
-      },
-      {
-        label: "37979 - Milpitas, CA",
-        value: "37979-subway",
-      },
-      {
-        label: "38783 - Los Gatos, CA",
-        value: "38783-subway",
-      },
-      {
-        label: "46028 - San Jose, CA",
-        value: "46028-subway",
-      },
-    ],
-  },
-];
-
-type Store = (typeof groups)[number]["stores"][number];
+const stores: Store[] = [];
 
 type PopoverTriggerProps = React.ComponentPropsWithoutRef<
   typeof PopoverTrigger
@@ -74,10 +51,38 @@ interface TeamSwitcherProps extends PopoverTriggerProps {}
 export default function TeamSwitcher({ className }: TeamSwitcherProps) {
   const [open, setOpen] = React.useState(false);
   const [showNewTeamDialog, setShowNewTeamDialog] = React.useState(false);
-  const [selectedStore, setSelectedStore] = React.useState<Store>({
-    label: "2400 - Cambell, CA",
-    value: "2400-subway",
-  });
+  const [selectedStore, setSelectedStore] = React.useState<Store>();
+
+  if (!selectedStore) {
+    return (
+      <Dialog open={showNewTeamDialog} onOpenChange={setShowNewTeamDialog}>
+        <Popover open={open} onOpenChange={setOpen}>
+          <PopoverTrigger asChild>
+            <Button
+              variant="outline"
+              role="combobox"
+              aria-expanded={open}
+              aria-label="Select a team"
+              className={cn("w-[250px] justify-between", className)}
+            >
+              <CaretSortIcon className="ml-auto h-4 w-4 shrink-0 opacity-50" />
+            </Button>
+          </PopoverTrigger>
+          <PopoverContent className="w-[250px] p-3">
+            Please create a store first.
+          </PopoverContent>
+        </Popover>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Create store</DialogTitle>
+            <DialogDescription>
+              Add a new store to manage employees and shifts.
+            </DialogDescription>
+          </DialogHeader>
+        </DialogContent>
+      </Dialog>
+    );
+  }
 
   return (
     <Dialog open={showNewTeamDialog} onOpenChange={setShowNewTeamDialog}>
@@ -87,17 +92,20 @@ export default function TeamSwitcher({ className }: TeamSwitcherProps) {
             variant="outline"
             role="combobox"
             aria-expanded={open}
-            aria-label="Select a team"
+            aria-label="Select a store"
             className={cn("w-[250px] justify-between", className)}
           >
             <Avatar className="mr-2 h-5 w-5">
               <AvatarImage
-                src={`https://avatar.vercel.sh/${selectedStore.value}.png`}
-                alt={selectedStore.label}
+                src={`https://avatar.vercel.sh/${selectedStore.id}.png`}
+                alt={selectedStore.name}
               />
               <AvatarFallback>SN</AvatarFallback>
             </Avatar>
-            {selectedStore.label}
+            {selectedStore.storeId +
+              selectedStore.city +
+              ", " +
+              selectedStore.state}
             <CaretSortIcon className="ml-auto h-4 w-4 shrink-0 opacity-50" />
           </Button>
         </PopoverTrigger>
@@ -106,38 +114,39 @@ export default function TeamSwitcher({ className }: TeamSwitcherProps) {
             <CommandList>
               <CommandInput placeholder="Search store..." />
               <CommandEmpty>No store found.</CommandEmpty>
-              {groups.map((group) => (
-                <CommandGroup key={group.label} heading={group.label}>
-                  {group.stores.map((store) => (
-                    <CommandItem
-                      key={store.value}
-                      onSelect={() => {
-                        setSelectedStore(store);
-                        setOpen(false);
-                      }}
-                      className="text-sm"
-                    >
-                      <Avatar className="mr-2 h-5 w-5">
-                        <AvatarImage
-                          src={`https://avatar.vercel.sh/${store.value}.png`}
-                          alt={store.label}
-                          className="grayscale"
-                        />
-                        <AvatarFallback>SN</AvatarFallback>
-                      </Avatar>
-                      {store.label}
-                      <CheckIcon
-                        className={cn(
-                          "ml-auto h-4 w-4",
-                          selectedStore.value === store.value
-                            ? "opacity-100"
-                            : "opacity-0"
-                        )}
+              <CommandGroup heading="Stores">
+                {stores.map((store) => (
+                  <CommandItem
+                    key={store.id}
+                    onSelect={() => {
+                      setSelectedStore(store);
+                      setOpen(false);
+                    }}
+                    className="text-sm"
+                  >
+                    <Avatar className="mr-2 h-5 w-5">
+                      <AvatarImage
+                        src={`https://avatar.vercel.sh/${store.id}.png`}
+                        alt={`${store.storeId} ${store.name} in ${store.city}`}
+                        className="grayscale"
                       />
-                    </CommandItem>
-                  ))}
-                </CommandGroup>
-              ))}
+                      <AvatarFallback>SN</AvatarFallback>
+                    </Avatar>
+                    {selectedStore.storeId +
+                      selectedStore.city +
+                      ", " +
+                      selectedStore.state}
+                    <CheckIcon
+                      className={cn(
+                        "ml-auto h-4 w-4",
+                        selectedStore.id === store.id
+                          ? "opacity-100"
+                          : "opacity-0"
+                      )}
+                    />
+                  </CommandItem>
+                ))}
+              </CommandGroup>
             </CommandList>
             <CommandSeparator />
             <CommandList>
@@ -169,7 +178,12 @@ export default function TeamSwitcher({ className }: TeamSwitcherProps) {
           <div className="space-y-4 py-2 pb-4">
             <div className="space-y-2">
               <Label htmlFor="storeId">ID</Label>
-              <Input id="storeId" name="storeId" type="number" placeholder="i.e. 2400" />
+              <Input
+                id="storeId"
+                name="storeId"
+                type="number"
+                placeholder="i.e. 2400"
+              />
             </div>
             <div className="space-y-2">
               <Label htmlFor="name">Name</Label>
