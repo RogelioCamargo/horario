@@ -2,22 +2,10 @@ import Head from "next/head";
 import React from "react";
 import { UserNav } from "~/components/user-nav";
 import { ThemeToggle } from "~/components/theme-toggle";
-import { DataTable } from "~/components/data-table";
-import { employeeColumns } from "~/components/employee-columns";
 import Link from "next/link";
-import { api } from "~/utils/api";
+import { EmployeeTable } from "./_employee-table";
 
 export default function Employees() {
-  const { isLoading, data } = api.employees.getAll.useQuery();
-
-  if (isLoading) {
-    return "Loading...";
-  }
-
-  if (data == null) {
-    return "Error to load data.";
-  }
-
   return (
     <>
       <Head>
@@ -58,7 +46,7 @@ export default function Employees() {
                 their settings.
               </p>
             </div>
-            <DataTable columns={employeeColumns} data={data} />
+            <EmployeeTable />
           </div>
         </div>
       </main>

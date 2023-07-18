@@ -2,21 +2,11 @@ import Head from "next/head";
 import React from "react";
 import { UserNav } from "~/components/user-nav";
 import { ThemeToggle } from "~/components/theme-toggle";
-import { DataTable } from "~/components/data-table";
-import { storeColumns } from "~/components/store-columns";
 import Link from "next/link";
-import { api } from "~/utils/api";
+import { StoreTable } from "./_store-table";
 
 export default function Home() {
-  const { isLoading, data } = api.stores.getAll.useQuery();
 
-  if (isLoading) {
-    return "Loading...";
-  }
-
-  if (data == null) {
-    return "Error to load data.";
-  }
 
   return (
     <>
@@ -57,7 +47,7 @@ export default function Home() {
                 Select any of your stores to start making schedules.
               </p>
             </div>
-            <DataTable columns={storeColumns} data={data} />
+            <StoreTable />
           </div>
         </div>
       </main>
