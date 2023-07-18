@@ -51,7 +51,7 @@ export const storeColumns: ColumnDef<Store>[] = [
         </div>
       );
     },
-    enableSorting: true,
+    enableSorting: false,
     enableHiding: true,
   },
   {
@@ -60,9 +60,11 @@ export const storeColumns: ColumnDef<Store>[] = [
       <DataTableColumnHeader column={column} title="City" />
     ),
     cell: ({ row }) => {
-      <div className="max-w-[120px] font-medium">{row.getValue("city")}</div>;
+      return (
+        <div className="w-[120px] font-medium">{row.getValue("city")}</div>
+      );
     },
-    enableSorting: true,
+    enableSorting: false,
     enableHiding: true,
   },
   {
@@ -71,9 +73,11 @@ export const storeColumns: ColumnDef<Store>[] = [
       <DataTableColumnHeader column={column} title="State" />
     ),
     cell: ({ row }) => {
-      <div className="max-w-[120px] font-medium">{row.getValue("state")}</div>;
+      return (
+        <div className="w-[80px] font-medium">{row.getValue("state")}</div>
+      );
     },
-    enableSorting: true,
+    enableSorting: false,
     enableHiding: true,
   },
   {
@@ -81,3 +85,4 @@ export const storeColumns: ColumnDef<Store>[] = [
     cell: ({ row }) => <DataTableRowActions row={row} />,
   },
 ];
+1;

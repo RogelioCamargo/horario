@@ -31,7 +31,7 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "~/components/ui/table";
+} from "~/components/ui/secondary-table";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "~/components/ui/tabs";
 import { UserNav } from "~/components/user-nav";
 import { cn } from "~/lib/utils";

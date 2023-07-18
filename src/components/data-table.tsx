@@ -1,19 +1,26 @@
 import React from "react";
 import { DataTableToolbar } from "./data-table-toolbar";
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "./ui/table";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "./ui/table";
 import {
   type ColumnDef,
   type ColumnFiltersState,
   type SortingState,
   type VisibilityState,
   useReactTable,
-	getCoreRowModel,
-	getFilteredRowModel,
-	getPaginationRowModel,
-	getSortedRowModel,
-	getFacetedRowModel,
-	getFacetedUniqueValues,
-	flexRender,
+  getCoreRowModel,
+  getFilteredRowModel,
+  getPaginationRowModel,
+  getSortedRowModel,
+  getFacetedRowModel,
+  getFacetedUniqueValues,
+  flexRender,
 } from "@tanstack/react-table";
 import { DataTablePagination } from "./data-table-pagination";
 
