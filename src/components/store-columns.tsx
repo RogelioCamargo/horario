@@ -36,7 +36,7 @@ export const storeColumns: ColumnDef<Store>[] = [
       const storeId: string = row.getValue("storeId");
       return <div className="w-[100px]">{`STORE-${storeId}`}</div>;
     },
-    enableSorting: false,
+    enableSorting: true,
     enableHiding: false,
   },
   {
@@ -51,7 +51,7 @@ export const storeColumns: ColumnDef<Store>[] = [
         </div>
       );
     },
-    enableSorting: false,
+    enableSorting: true,
     enableHiding: true,
   },
   {
@@ -64,7 +64,7 @@ export const storeColumns: ColumnDef<Store>[] = [
         <div className="w-[120px] font-medium">{row.getValue("city")}</div>
       );
     },
-    enableSorting: false,
+    enableSorting: true,
     enableHiding: true,
   },
   {
@@ -77,7 +77,7 @@ export const storeColumns: ColumnDef<Store>[] = [
         <div className="w-[80px] font-medium">{row.getValue("state")}</div>
       );
     },
-    enableSorting: false,
+    enableSorting: true,
     enableHiding: true,
   },
   {

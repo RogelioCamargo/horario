@@ -36,7 +36,7 @@ export const employeeColumns: ColumnDef<Employee>[] = [
       const employeeId: string = row.getValue("employeeId");
       return <div className="w-[120px]">{`EMPLOYEE-${employeeId}`}</div>;
     },
-    enableSorting: false,
+    enableSorting: true,
     enableHiding: false,
   },
   {

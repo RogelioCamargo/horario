@@ -5,8 +5,19 @@ import { ThemeToggle } from "~/components/theme-toggle";
 import { DataTable } from "~/components/data-table";
 import { employeeColumns } from "~/components/employee-columns";
 import Link from "next/link";
+import { api } from "~/utils/api";
 
-export default function Home() {
+export default function Employees() {
+  const { isLoading, data } = api.employees.getAll.useQuery();
+
+  if (isLoading) {
+    return "Loading...";
+  }
+
+  if (data == null) {
+    return "Error to load data.";
+  }
+
   return (
     <>
       <Head>
@@ -47,7 +58,7 @@ export default function Home() {
                 their settings.
               </p>
             </div>
-            <DataTable columns={employeeColumns} data={[]} />
+            <DataTable columns={employeeColumns} data={data} />
           </div>
         </div>
       </main>

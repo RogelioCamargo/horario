@@ -18,8 +18,6 @@ export default function Home() {
     return "Error to load data.";
   }
 
-  console.log(data);
-
   return (
     <>
       <Head>
