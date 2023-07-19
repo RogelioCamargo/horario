@@ -38,49 +38,35 @@ import {
   SelectValue,
 } from "./ui/select";
 import type { Store } from "@prisma/client";
-
-const stores: Store[] = [];
+import { api } from "~/utils/api";
+import { Skeleton } from "./ui/skeleton";
+import Link from "next/link";
 
 type PopoverTriggerProps = React.ComponentPropsWithoutRef<
   typeof PopoverTrigger
 >;
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
-interface TeamSwitcherProps extends PopoverTriggerProps {}
+interface TeamSwitcherProps extends PopoverTriggerProps {
+  currentStore: Store;
+}
 
-export default function TeamSwitcher({ className }: TeamSwitcherProps) {
+export default function TeamSwitcher({
+  className,
+  currentStore,
+}: TeamSwitcherProps) {
+  const { isLoading, data: stores } = api.stores.getAll.useQuery();
   const [open, setOpen] = React.useState(false);
   const [showNewTeamDialog, setShowNewTeamDialog] = React.useState(false);
-  const [selectedStore, setSelectedStore] = React.useState<Store>();
+  const [selectedStore, setSelectedStore] = React.useState<Store>(currentStore);
 
-  if (!selectedStore) {
+  if (isLoading) {
+    return <Skeleton className="h-6 w-[150px]" />;
+  }
+
+  if (stores == null) {
     return (
-      <Dialog open={showNewTeamDialog} onOpenChange={setShowNewTeamDialog}>
-        <Popover open={open} onOpenChange={setOpen}>
-          <PopoverTrigger asChild>
-            <Button
-              variant="outline"
-              role="combobox"
-              aria-expanded={open}
-              aria-label="Select a team"
-              className={cn("w-[250px] justify-between", className)}
-            >
-              <CaretSortIcon className="ml-auto h-4 w-4 shrink-0 opacity-50" />
-            </Button>
-          </PopoverTrigger>
-          <PopoverContent className="w-[250px] p-3">
-            Please create a store first.
-          </PopoverContent>
-        </Popover>
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle>Create store</DialogTitle>
-            <DialogDescription>
-              Add a new store to manage employees and shifts.
-            </DialogDescription>
-          </DialogHeader>
-        </DialogContent>
-      </Dialog>
+      <div className="pt-10 text-center text-lg">Failed to fetch data.</div>
     );
   }
 
@@ -103,6 +89,7 @@ export default function TeamSwitcher({ className }: TeamSwitcherProps) {
               <AvatarFallback>SN</AvatarFallback>
             </Avatar>
             {selectedStore.storeId +
+              " - " +
               selectedStore.city +
               ", " +
               selectedStore.state}
@@ -116,35 +103,35 @@ export default function TeamSwitcher({ className }: TeamSwitcherProps) {
               <CommandEmpty>No store found.</CommandEmpty>
               <CommandGroup heading="Stores">
                 {stores.map((store) => (
-                  <CommandItem
-                    key={store.id}
-                    onSelect={() => {
-                      setSelectedStore(store);
-                      setOpen(false);
-                    }}
-                    className="text-sm"
-                  >
-                    <Avatar className="mr-2 h-5 w-5">
-                      <AvatarImage
-                        src={`https://avatar.vercel.sh/${store.id}.png`}
-                        alt={`${store.storeId} ${store.name} in ${store.city}`}
-                        className="grayscale"
+                  <Link key={store.id} href={`/stores/${store.id}`}>
+                    <CommandItem
+                      onSelect={() => {
+                        setSelectedStore(store);
+                        setOpen(false);
+                      }}
+                      className="text-sm"
+                    >
+                      <Avatar className="mr-2 h-5 w-5">
+                        <AvatarImage
+                          src={`https://avatar.vercel.sh/${store.id}.png`}
+                          alt={`${store.storeId} ${store.name} in ${store.city}`}
+                          className="grayscale"
+                        />
+                        <AvatarFallback>SN</AvatarFallback>
+                      </Avatar>
+
+                      {store.storeId + " - " + store.city + ", " + store.state}
+
+                      <CheckIcon
+                        className={cn(
+                          "ml-auto h-4 w-4",
+                          selectedStore.id === store.id
+                            ? "opacity-100"
+                            : "opacity-0"
+                        )}
                       />
-                      <AvatarFallback>SN</AvatarFallback>
-                    </Avatar>
-                    {selectedStore.storeId +
-                      selectedStore.city +
-                      ", " +
-                      selectedStore.state}
-                    <CheckIcon
-                      className={cn(
-                        "ml-auto h-4 w-4",
-                        selectedStore.id === store.id
-                          ? "opacity-100"
-                          : "opacity-0"
-                      )}
-                    />
-                  </CommandItem>
+                    </CommandItem>
+                  </Link>
                 ))}
               </CommandGroup>
             </CommandList>

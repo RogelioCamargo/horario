@@ -84,7 +84,7 @@ export default function Store() {
         <div className="flex flex-col">
           <div className="border-b">
             <div className="container flex h-16 items-center px-4">
-              <TeamSwitcher />
+              <TeamSwitcher currentStore={store} />
               <MainNav className="mx-6" />
               <div className="ml-auto flex items-center space-x-1">
                 <ThemeToggle />
