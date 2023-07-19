@@ -39,8 +39,8 @@ export default function Employees() {
             </div>
           </div>
           <div className="container flex-1 space-y-8 p-8 pt-6">
-            <div>
-              <h2 className="text-2xl font-bold tracking-tight">Employees</h2>
+            <div className="space-y-1">
+              <h2 className="text-3xl font-bold tracking-tight">Employees</h2>
               <p className="text-muted-foreground">
                 Select any of your employees to view their schedule or update
                 their settings.

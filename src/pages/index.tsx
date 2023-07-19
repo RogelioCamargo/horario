@@ -41,8 +41,8 @@ export default function Home() {
             </div>
           </div>
           <div className="container flex-1 space-y-8 overflow-hidden p-8 pt-6">
-            <div>
-              <h2 className="text-2xl font-bold tracking-tight">Stores</h2>
+            <div className="space-y-1">
+              <h2 className="text-3xl font-bold tracking-tight">Stores</h2>
               <p className="text-muted-foreground">
                 Select any of your stores to start making schedules.
               </p>
