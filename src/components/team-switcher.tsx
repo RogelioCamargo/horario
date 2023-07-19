@@ -41,6 +41,7 @@ import type { Store } from "@prisma/client";
 import { api } from "~/utils/api";
 import { Skeleton } from "./ui/skeleton";
 import Link from "next/link";
+import { useRouter } from "next/router";
 
 type PopoverTriggerProps = React.ComponentPropsWithoutRef<
   typeof PopoverTrigger
@@ -55,6 +56,14 @@ export default function TeamSwitcher({
   className,
   currentStore,
 }: TeamSwitcherProps) {
+  const router = useRouter();
+
+  function newPathname(id: string) {
+    const pathname = router.pathname;
+    const paths = pathname.split("/");
+    paths[2] = id;
+    return paths.join("/");
+  }
   const { isLoading, data: stores } = api.stores.getAll.useQuery();
   const [open, setOpen] = React.useState(false);
   const [showNewTeamDialog, setShowNewTeamDialog] = React.useState(false);
@@ -103,7 +112,7 @@ export default function TeamSwitcher({
               <CommandEmpty>No store found.</CommandEmpty>
               <CommandGroup heading="Stores">
                 {stores.map((store) => (
-                  <Link key={store.id} href={`/stores/${store.id}`}>
+                  <Link key={store.id} href={newPathname(store.id)}>
                     <CommandItem
                       onSelect={() => {
                         setSelectedStore(store);
