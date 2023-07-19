@@ -37,30 +37,20 @@ import { UserNav } from "~/components/user-nav";
 import { cn } from "~/lib/utils";
 import type { DateRange } from "react-day-picker";
 import { ThemeToggle } from "~/components/theme-toggle";
-
-const shifts = [
-  {
-    id: 1,
-    employee: "Camargo, Juan",
-  },
-  {
-    id: 2,
-    employee: "Isidoro, Ana",
-  },
-  {
-    id: 3,
-    employee: "Sanchez, Leyla",
-  },
-  {
-    id: 4,
-    employee: "T, Alejandra",
-  },
-];
+import { api } from "~/utils/api";
+import { useRouter } from "next/router";
 
 export default function Store() {
+  const router = useRouter();
+  const storeId = router.query.id as string;
+  console.log(storeId);
+
+  const { isLoading, data: store } = api.stores.getStoreWithEmployees.useQuery({
+    storeId,
+  });
+
   const defaultEndDate = nextTuesday(new Date());
   const defaultStartDate = subDays(defaultEndDate, 6);
-
   const [date, setDate] = React.useState<DateRange | undefined>({
     from: defaultStartDate,
     to: defaultEndDate,
@@ -72,6 +62,16 @@ export default function Store() {
     start: startOfWeekDate,
     end: endOfWeekDate,
   });
+
+  if (isLoading) {
+    return "Loading...";
+  }
+
+  if (store == null) {
+    return (
+      <div className="pt-10 text-center text-lg">Failed to fetch data.</div>
+    );
+  }
 
   return (
     <>
@@ -203,10 +203,10 @@ export default function Store() {
                     </TableRow>
                   </TableHeader>
                   <TableBody>
-                    {shifts.map((shift) => (
-                      <TableRow key={shift.id}>
+                    {store.employees?.map((employee) => (
+                      <TableRow key={employee.id}>
                         <TableCell className="text-left font-medium">
-                          {shift.employee}
+                          {employee.name}
                         </TableCell>
                         {[0, 1, 2, 3, 4, 5, 6].map((index) => (
                           <TableCell

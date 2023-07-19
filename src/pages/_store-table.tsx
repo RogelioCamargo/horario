@@ -39,60 +39,8 @@ export function StoreTable() {
     );
   }
 
-  return (
-    <>
-      <div className="hidden md:block">
-        <DataTable columns={storeColumns} data={data} />
-      </div>
-      <div className="md:hidden">
-        <DataTable columns={mobileStoreColumns} data={data} />
-      </div>
-    </>
-  );
+  return <DataTable columns={storeColumns} data={data} />;
 }
-
-const mobileStoreColumns: ColumnDef<Store>[] = [
-  {
-    id: "select",
-    header: ({ table }) => (
-      <Checkbox
-        checked={table.getIsAllPageRowsSelected()}
-        onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
-        aria-label="Select all"
-        className="translate-y-[2px]"
-      />
-    ),
-    cell: ({ row }) => (
-      <Checkbox
-        checked={row.getIsSelected()}
-        onCheckedChange={(value) => row.toggleSelected(!!value)}
-        aria-label="Select row"
-        className="translate-y-[2px]"
-      />
-    ),
-    enableSorting: false,
-    enableHiding: false,
-  },
-  {
-    accessorKey: "storeId",
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Store" />
-    ),
-    cell: ({ row }) => {
-      const store = row.original;
-      const storeId: string = row.getValue("storeId");
-      return (
-        <div className="w-[120px]">{`${store.name.toUpperCase()}-${storeId}`}</div>
-      );
-    },
-    enableSorting: true,
-    enableHiding: false,
-  },
-  {
-    id: "actions",
-    cell: ({ row }) => <DataTableRowActions row={row} />,
-  },
-];
 
 // TODO: Find another way to make a table row clickable.
 const storeColumns: ColumnDef<Store>[] = [
@@ -200,9 +148,9 @@ export function DataTableRowActions<TData>({
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" className="w-[160px]">
-        <DropdownMenuItem>
-          <Link href={`/stores/${store.id}`}>View</Link>
-        </DropdownMenuItem>
+        <Link href={`/stores/${store.id}`}>
+          <DropdownMenuItem>View</DropdownMenuItem>
+        </Link>
         <DropdownMenuItem>Edit</DropdownMenuItem>
         <DropdownMenuSeparator />
         <DropdownMenuItem>Delete</DropdownMenuItem>
