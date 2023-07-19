@@ -1,10 +1,11 @@
 import Link from "next/link";
 import { cn } from "~/lib/utils";
 
-export function MainNav({
-  className,
-  ...props
-}: React.HTMLAttributes<HTMLElement>) {
+interface MainNavProps extends React.HTMLAttributes<HTMLElement> {
+  storeId: string;
+}
+
+export function MainNav({ className, storeId, ...props }: MainNavProps) {
   return (
     <nav
       className={cn(
@@ -14,13 +15,13 @@ export function MainNav({
       {...props}
     >
       <Link
-        href="/"
+        href={`/stores/${storeId}`}
         className="text-sm font-medium transition-colors hover:text-primary"
       >
         Overview
       </Link>
       <Link
-        href="/settings"
+        href={`/stores/${storeId}/settings`}
         className="text-sm font-medium transition-colors hover:text-primary"
       >
         Settings

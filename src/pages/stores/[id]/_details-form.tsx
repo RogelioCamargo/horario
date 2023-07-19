@@ -21,6 +21,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
 import { Button } from "~/components/ui/button";
+import { type Store } from "@prisma/client";
 
 const storeFormSchema = z.object({
   storeId: z.string({
@@ -35,26 +36,23 @@ const storeFormSchema = z.object({
   state: z.string({
     required_error: "Store state is required.",
   }),
-  weekdayStart: z.string({
+  startOfWeekIndex: z.string({
     required_error: "Weekday start is required.",
   }),
 });
 
 type ProfileFormValues = z.infer<typeof storeFormSchema>;
 
-// This can come from your database or API.
-const defaultValues: Partial<ProfileFormValues> = {
-  storeId: "2400",
-  name: "Subway",
-  city: "Campbell",
-  state: "CA",
-  weekdayStart: "0",
-};
-
-export function StoreDetailsForm() {
+export function StoreDetailsForm({ store }: { store: Store }) {
   const form = useForm<ProfileFormValues>({
     resolver: zodResolver(storeFormSchema),
-    defaultValues,
+    defaultValues: {
+      storeId: store.storeId,
+      name: store.name,
+      city: store.city,
+      state: store.state,
+      startOfWeekIndex: store.startOfWeekIndex,
+    },
     mode: "onChange",
   });
 
@@ -112,7 +110,9 @@ export function StoreDetailsForm() {
                 <FormControl>
                   <Input placeholder="i.e. Campbell" {...field} />
                 </FormControl>
-								<FormDescription>This the location of your store.</FormDescription>
+                <FormDescription>
+                  This the location of your store.
+                </FormDescription>
                 <FormMessage />
               </FormItem>
             )}
@@ -133,28 +133,29 @@ export function StoreDetailsForm() {
         </div>
         <FormField
           control={form.control}
-          name="weekdayStart"
+          name="startOfWeekIndex"
           render={({ field }) => (
             <FormItem>
               <FormLabel>When does your week start?</FormLabel>
               <Select onValueChange={field.onChange} defaultValue={field.value}>
                 <FormControl>
                   <SelectTrigger>
-                    <SelectValue placeholder="Select a verified email to display" />
+                    <SelectValue placeholder="Select a day of the week" />
                   </SelectTrigger>
                 </FormControl>
                 <SelectContent>
-                  <SelectItem value="0">Sunday</SelectItem>
-                  <SelectItem value="1">Monday</SelectItem>
-                  <SelectItem value="2">Tuesday</SelectItem>
-                  <SelectItem value="3">Wednesday</SelectItem>
-                  <SelectItem value="4">Thursday</SelectItem>
-                  <SelectItem value="5">Friday</SelectItem>
-                  <SelectItem value="6">Saterday</SelectItem>
+                  <SelectItem value="SUNDAY">Sunday</SelectItem>
+                  <SelectItem value="MONDAY">Monday</SelectItem>
+                  <SelectItem value="TUESDAY">Tuesday</SelectItem>
+                  <SelectItem value="WEDNESDAY">Wednesday</SelectItem>
+                  <SelectItem value="THURSDAY">Thursday</SelectItem>
+                  <SelectItem value="FRIDAY">Friday</SelectItem>
+                  <SelectItem value="SATURDAY">Saturday</SelectItem>
                 </SelectContent>
               </Select>
               <FormDescription>
-                It&apos;s important to select the correct week start for your business.
+                It&apos;s important to select the correct week start for your
+                business.
               </FormDescription>
               <FormMessage />
             </FormItem>

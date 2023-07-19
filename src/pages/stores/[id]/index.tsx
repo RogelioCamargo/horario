@@ -39,11 +39,11 @@ import type { DateRange } from "react-day-picker";
 import { ThemeToggle } from "~/components/theme-toggle";
 import { api } from "~/utils/api";
 import { useRouter } from "next/router";
+import { Skeleton } from "~/components/ui/skeleton";
 
 export default function Store() {
   const router = useRouter();
   const storeId = router.query.id as string;
-  console.log(storeId);
 
   const { isLoading, data: store } = api.stores.getStoreWithEmployees.useQuery({
     storeId,
@@ -64,7 +64,19 @@ export default function Store() {
   });
 
   if (isLoading) {
-    return "Loading...";
+    return (
+      <div className="container space-y-3">
+        <Skeleton className="mb-7 h-8 w-full" />
+        <Skeleton className="h-6 w-[150px]" />
+        <Skeleton className="h-6 w-[250px]" />
+        <Skeleton className="h-8 w-[350px]" />
+        <Skeleton className="h-8 w-full" />
+        <Skeleton className="h-8 w-full" />
+        <Skeleton className="h-8 w-full" />
+        <Skeleton className="h-8 w-full" />
+        <Skeleton className="h-8 w-full" />
+      </div>
+    );
   }
 
   if (store == null) {
@@ -85,7 +97,7 @@ export default function Store() {
           <div className="border-b">
             <div className="container flex h-16 items-center px-4">
               <TeamSwitcher currentStore={store} />
-              <MainNav className="mx-6" />
+              <MainNav storeId={store.id} className="mx-6" />
               <div className="ml-auto flex items-center space-x-1">
                 <ThemeToggle />
                 <UserNav />

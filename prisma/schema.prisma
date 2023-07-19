@@ -7,15 +7,26 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+enum DayOfWeek {
+  SUNDAY
+  MONDAY
+  TUESDAY
+  WEDNESDAY
+  THURSDAY
+  FRIDAY
+  SATURDAY
+}
+
 model Store {
-  id        String     @id @default(cuid())
-  storeId   String
-  name      String
-  city      String
-  state     String
-  userId    String
-  employees Employee[]
-  shifts     Shift[]
+  id               String     @id @default(cuid())
+  storeId          String
+  name             String
+  city             String
+  state            String
+  userId           String
+  startOfWeekIndex DayOfWeek  @default(TUESDAY)
+  employees        Employee[]
+  shifts           Shift[]
 }
 
 model Employee {

@@ -6,8 +6,6 @@ import Link from "next/link";
 import { StoreTable } from "./_store-table";
 
 export default function Home() {
-
-
   return (
     <>
       <Head>
