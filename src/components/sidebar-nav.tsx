@@ -22,7 +22,6 @@ export function SidebarNav({ className, items, ...props }: SidebarNavProps) {
       {...props}
     >
       {items.map((item) => {
-        console.log(pathname);
         return (
           <Link
             key={item.href}

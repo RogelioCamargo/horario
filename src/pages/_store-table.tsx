@@ -6,6 +6,7 @@ import { Checkbox } from "~/components/ui/checkbox";
 import { type Store } from "@prisma/client";
 import { DataTableColumnHeader } from "~/components/data-table-column-header";
 import { DataTableRowActions } from "~/components/data-table-row-actions";
+import Link from "next/link";
 
 export function StoreTable() {
   const { isLoading, data } = api.stores.getAll.useQuery();
