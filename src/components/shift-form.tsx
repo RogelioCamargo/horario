@@ -13,10 +13,9 @@ import { Input } from "./ui/input";
 import { Label } from "./ui/label";
 import { type Employee, type Store } from "@prisma/client";
 import { Textarea } from "./ui/textarea";
-import { format, getDay, getMonth, getYear } from "date-fns";
+import { format, getDate, getMonth, getYear } from "date-fns";
 import { useUser } from "@clerk/nextjs";
 import { api } from "~/utils/api";
-import { useRouter } from "next/router";
 
 // const defaultShift = {
 //   startDate: null,
@@ -34,7 +33,6 @@ export function ShiftForm({
   date: Date;
 }) {
   const user = useUser();
-  const router = useRouter();
   const [showNewTeamDialog, setShowNewTeamDialog] = React.useState(false);
   const [newShift, setNewShift] = React.useState({
     startDate: "",
@@ -131,14 +129,14 @@ export function ShiftForm({
                 const startDate = new Date(
                   getYear(date),
                   getMonth(date),
-                  getDay(date),
+                  getDate(date),
                   Number(startHour),
                   Number(startMinute)
                 );
                 const endDate = new Date(
                   getYear(date),
                   getMonth(date),
-                  getDay(date),
+                  getDate(date),
                   Number(endHour),
                   Number(endMinute)
                 );
