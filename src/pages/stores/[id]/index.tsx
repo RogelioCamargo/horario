@@ -40,6 +40,7 @@ import { ThemeToggle } from "~/components/theme-toggle";
 import { api } from "~/utils/api";
 import { useRouter } from "next/router";
 import { Skeleton } from "~/components/ui/skeleton";
+import { ShiftForm } from "~/components/shift-form";
 
 export default function Store() {
   const router = useRouter();
@@ -66,9 +67,9 @@ export default function Store() {
   if (isLoading) {
     return (
       <div className="container space-y-3">
-        <Skeleton className="mb-7 h-8 w-full" />
-        <Skeleton className="h-6 w-[150px]" />
-        <Skeleton className="h-6 w-[250px]" />
+        <Skeleton className="mb-14 mt-5 h-8 w-full" />
+        <Skeleton className="h-8 w-[200px]" />
+        <Skeleton className="h-8 w-[250px]" />
         <Skeleton className="h-8 w-[350px]" />
         <Skeleton className="h-8 w-full" />
         <Skeleton className="h-8 w-full" />
@@ -220,12 +221,16 @@ export default function Store() {
                         <TableCell className="text-left font-medium">
                           {employee.name}
                         </TableCell>
-                        {[0, 1, 2, 3, 4, 5, 6].map((index) => (
+                        {weekDates.map((date) => (
                           <TableCell
-                            key={index}
+                            key={date.valueOf()}
                             className="text-muted-foreground"
                           >
-                            + Shift
+                            <ShiftForm
+                              store={store}
+                              employee={employee}
+                              date={date}
+                            />
                           </TableCell>
                         ))}
                       </TableRow>
