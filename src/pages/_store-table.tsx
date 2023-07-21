@@ -34,9 +34,7 @@ export function StoreTable() {
   }
 
   if (data == null) {
-    return (
-      <div className="pt-10 text-center text-lg">Failed to fetch data.</div>
-    );
+    throw new Error("Failed to fetch data. Please try again later.");
   }
 
   return <DataTable columns={storeColumns} data={data} />;

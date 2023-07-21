@@ -12,7 +12,6 @@ import { Button } from "~/components/ui/button";
 import { Calendar } from "~/components/ui/calendar";
 import {
   addDays,
-  compareAsc,
   eachDayOfInterval,
   format,
   formatISO,
@@ -57,7 +56,7 @@ export default function Store() {
     to: defaultEndDate,
   });
 
-  const { isLoading, data } = api.stores.getStoreWithEmployees.useQuery({
+  const { isLoading, data } = api.stores.getStoreWithEmployeeShifts.useQuery({
     storeId,
     startDate: formatISO(defaultStartDate),
     endDate: formatISO(defaultEndDate),
@@ -87,9 +86,7 @@ export default function Store() {
   }
 
   if (data == null) {
-    return (
-      <div className="pt-10 text-center text-lg">Failed to fetch data.</div>
-    );
+    throw new Error("Failed to fetch data. Please try again later.");
   }
 
   const { store, shifts } = data;

@@ -19,13 +19,36 @@ export default function Settings() {
   });
 
   if (isLoading) {
-    return <Skeleton className="h-6 w-[150px]" />;
+    <div className="container space-y-3">
+      <Skeleton className="mb-14 mt-5 h-8 w-full" />
+      <Skeleton className="h-8 w-[200px]" />
+      <Skeleton className="h-8 w-[250px]" />
+      <div className="h-[20px]" />
+      <div className="flex gap-10">
+        <Skeleton className="h-8 w-[250px]" />
+        <Skeleton className="h-8 w-full" />
+      </div>
+      <div className="flex gap-10">
+        <Skeleton className="h-8 w-[250px]" />
+        <Skeleton className="h-8 w-full" />
+      </div>
+      <div className="flex gap-10">
+        <Skeleton className="h-8 w-[250px]" />
+        <Skeleton className="h-8 w-full" />
+      </div>
+      <div className="flex gap-10">
+        <Skeleton className="h-8 w-[250px]" />
+        <Skeleton className="h-8 w-full" />
+      </div>
+      <div className="flex gap-10">
+        <Skeleton className="h-8 w-[250px]" />
+        <Skeleton className="h-8 w-full" />
+      </div>
+    </div>;
   }
 
   if (store == null) {
-    return (
-      <div className="pt-10 text-center text-lg">Failed to fetch data.</div>
-    );
+    throw new Error("Failed to fetch data. Please try again later.");
   }
 
   return (
@@ -49,9 +72,7 @@ export default function Settings() {
           </div>
           <div className="container flex-1 space-y-4 p-8 pt-6">
             <div className="space-y-0.5">
-              <h2 className="text-3xl font-bold tracking-tight">
-                Settings
-              </h2>
+              <h2 className="text-3xl font-bold tracking-tight">Settings</h2>
               <p className="text-muted-foreground">
                 Manage your store details and employees.
               </p>

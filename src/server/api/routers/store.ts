@@ -20,6 +20,27 @@ export const storeRouter = createTRPCRouter({
     .input(
       z.object({
         storeId: z.string(),
+      })
+    )
+    .query(({ ctx, input }) => {
+      if (!ctx.userId) {
+        throw new TRPCError({ code: "UNAUTHORIZED" });
+      }
+
+      return ctx.prisma.store.findFirst({
+        where: {
+          userId: ctx.userId,
+          id: input.storeId,
+        },
+        include: {
+          employees: true,
+        },
+      });
+    }),
+  getStoreWithEmployeeShifts: privateProcedure
+    .input(
+      z.object({
+        storeId: z.string(),
         startDate: z.string(),
         endDate: z.string(),
       })
