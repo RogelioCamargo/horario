@@ -268,9 +268,10 @@ export default function Store() {
                                       }
                                     })
                                     .map((shift) => (
-                                      <div key={shift.id}>
+                                      <div key={shift.id} className="space-y-1">
                                         {format(shift.startDate, "h:mma")}-
                                         {format(shift.endDate, "h:mma")}
+                                        {shift?.notes}
                                       </div>
                                     ))}
                                 </>
