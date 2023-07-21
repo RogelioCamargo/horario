@@ -1,4 +1,5 @@
 import {
+  CalendarDays,
   CalendarIcon,
   ChevronLeftIcon,
   ChevronRightIcon,
@@ -206,31 +207,32 @@ export default function Store() {
                       <ChevronRightIcon className="h-4 w-4" />
                     </Button>
                   </div>
-                  <DropdownMenu>
-                    <DropdownMenuTrigger asChild>
-                      <Button variant="outline" className="w-32">
-                        Actions
-                      </Button>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent className="w-56">
-                      <DropdownMenuLabel>My Schedule</DropdownMenuLabel>
-                      <DropdownMenuSeparator />
-                      <DropdownMenuGroup>
-                        <button className="w-full">
-                          <DropdownMenuItem>
-                            <Copy className="mr-2 h-4 w-4" />
-                            <span>Duplicate Last Week</span>
-                          </DropdownMenuItem>
-                        </button>
-                        <button className="w-full">
-                          <DropdownMenuItem>
-                            <Download className="mr-2 h-4 w-4" />
-                            <span>Download</span>
-                          </DropdownMenuItem>
-                        </button>
-                      </DropdownMenuGroup>
-                    </DropdownMenuContent>
-                  </DropdownMenu>
+                  <div className="flex gap-3">
+                    <DropdownMenu>
+                      <DropdownMenuTrigger asChild>
+                        <Button variant="outline" className="w-32">
+                          <Copy className="mr-2 h-4 w-4" />
+                          <span>Duplicate</span>
+                        </Button>
+                      </DropdownMenuTrigger>
+                      <DropdownMenuContent className="w-56">
+                        <DropdownMenuLabel>My Schedule</DropdownMenuLabel>
+                        <DropdownMenuSeparator />
+                        <DropdownMenuGroup>
+                          <button className="w-full">
+                            <DropdownMenuItem>
+                              <CalendarDays className="mr-2 h-4 w-4" />
+                              <span>Last Week</span>
+                            </DropdownMenuItem>
+                          </button>
+                        </DropdownMenuGroup>
+                      </DropdownMenuContent>
+                    </DropdownMenu>
+                    <Button>
+                      <Download className="mr-2 h-4 w-4" />
+                      Download
+                    </Button>
+                  </div>
                 </div>
                 <Table>
                   <TableCaption className="pb-5">
