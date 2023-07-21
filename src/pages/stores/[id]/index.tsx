@@ -12,8 +12,11 @@ import { Button } from "~/components/ui/button";
 import { Calendar } from "~/components/ui/calendar";
 import {
   addDays,
+  compareAsc,
   eachDayOfInterval,
   format,
+  formatISO,
+  getDay,
   isToday,
   nextTuesday,
   subDays,
@@ -41,20 +44,23 @@ import { api } from "~/utils/api";
 import { useRouter } from "next/router";
 import { Skeleton } from "~/components/ui/skeleton";
 import { ShiftForm } from "~/components/shift-form";
+import { type Shift } from "@prisma/client";
 
 export default function Store() {
   const router = useRouter();
   const storeId = router.query.id as string;
-
-  const { isLoading, data: store } = api.stores.getStoreWithEmployees.useQuery({
-    storeId,
-  });
 
   const defaultEndDate = nextTuesday(new Date());
   const defaultStartDate = subDays(defaultEndDate, 6);
   const [date, setDate] = React.useState<DateRange | undefined>({
     from: defaultStartDate,
     to: defaultEndDate,
+  });
+
+  const { isLoading, data } = api.stores.getStoreWithEmployees.useQuery({
+    storeId,
+    startDate: formatISO(defaultStartDate),
+    endDate: formatISO(defaultEndDate),
   });
   const startOfWeekDate = date?.from || defaultStartDate;
   const endOfWeekDate = date?.to || defaultEndDate;
@@ -80,12 +86,20 @@ export default function Store() {
     );
   }
 
-  if (store == null) {
+  if (data == null) {
     return (
       <div className="pt-10 text-center text-lg">Failed to fetch data.</div>
     );
   }
 
+  const { store, shifts } = data;
+
+  if (store == null) {
+    return (
+      <div className="pt-10 text-center text-lg">Failed to fetch data.</div>
+    );
+  }
+  console.log(shifts);
   return (
     <>
       <Head>
@@ -221,18 +235,49 @@ export default function Store() {
                         <TableCell className="text-left font-medium">
                           {employee.name}
                         </TableCell>
-                        {weekDates.map((date) => (
-                          <TableCell
-                            key={date.valueOf()}
-                            className="text-muted-foreground"
-                          >
-                            <ShiftForm
-                              store={store}
-                              employee={employee}
-                              date={date}
-                            />
-                          </TableCell>
-                        ))}
+                        {weekDates.map((date) => {
+                          const dayOfWeek = getDay(date);
+                          const employeeShiftsByDay = shifts[employee.id] || {};
+
+                          const employeeShifts: Shift[] =
+                            employeeShiftsByDay[dayOfWeek] || [];
+                          return (
+                            <TableCell
+                              key={date.valueOf()}
+                              className="text-muted-foreground"
+                            >
+                              {employeeShifts.length == 0 ? (
+                                <ShiftForm
+                                  store={store}
+                                  employee={employee}
+                                  date={date}
+                                />
+                              ) : (
+                                <>
+                                  {employeeShifts
+                                    .sort(function (a, b) {
+                                      const key1 = a.startDate;
+                                      const key2 = b.startDate;
+
+                                      if (key1 < key2) {
+                                        return -1;
+                                      } else if (key1 == key2) {
+                                        return 0;
+                                      } else {
+                                        return 1;
+                                      }
+                                    })
+                                    .map((shift) => (
+                                      <div key={shift.id}>
+                                        {format(shift.startDate, "h:mma")}-
+                                        {format(shift.endDate, "h:mma")}
+                                      </div>
+                                    ))}
+                                </>
+                              )}
+                            </TableCell>
+                          );
+                        })}
                       </TableRow>
                     ))}
                   </TableBody>

@@ -48,8 +48,6 @@ export function ShiftForm({
       },
     });
 
-  console.log(newShift);
-
   return (
     <Dialog open={showNewTeamDialog} onOpenChange={setShowNewTeamDialog}>
       <DialogTrigger>+ Shift</DialogTrigger>
