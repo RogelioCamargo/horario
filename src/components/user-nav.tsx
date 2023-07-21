@@ -14,13 +14,15 @@ import Link from "next/link";
 
 export function UserNav() {
   const { user } = useUser();
+  const abbrevation =
+    (user?.firstName || "").slice(0, 1) + (user?.lastName || "").slice(0, 1);
 
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Button variant="ghost" className="relative h-8 w-8 rounded-full">
           <Avatar className="h-8 w-8">
-            <AvatarFallback>P</AvatarFallback>
+            <AvatarFallback>{abbrevation || "P"}</AvatarFallback>
           </Avatar>
         </Button>
       </DropdownMenuTrigger>
