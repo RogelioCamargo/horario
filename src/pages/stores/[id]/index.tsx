@@ -2,6 +2,8 @@ import {
   CalendarIcon,
   ChevronLeftIcon,
   ChevronRightIcon,
+  Copy,
+  Download,
   DownloadIcon,
 } from "lucide-react";
 import Head from "next/head";
@@ -44,6 +46,15 @@ import { useRouter } from "next/router";
 import { Skeleton } from "~/components/ui/skeleton";
 import { ShiftForm } from "~/components/shift-form";
 import { type Shift } from "@prisma/client";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuGroup,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "~/components/ui/dropdown-menu";
 
 export default function Store() {
   const router = useRouter();
@@ -195,10 +206,31 @@ export default function Store() {
                       <ChevronRightIcon className="h-4 w-4" />
                     </Button>
                   </div>
-                  <Button>
-                    <DownloadIcon className="mr-3 h-4 w-4" />
-                    Download
-                  </Button>
+                  <DropdownMenu>
+                    <DropdownMenuTrigger asChild>
+                      <Button variant="outline" className="w-32">
+                        Actions
+                      </Button>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent className="w-56">
+                      <DropdownMenuLabel>My Schedule</DropdownMenuLabel>
+                      <DropdownMenuSeparator />
+                      <DropdownMenuGroup>
+                        <button className="w-full">
+                          <DropdownMenuItem>
+                            <Copy className="mr-2 h-4 w-4" />
+                            <span>Duplicate Last Week</span>
+                          </DropdownMenuItem>
+                        </button>
+                        <button className="w-full">
+                          <DropdownMenuItem>
+                            <Download className="mr-2 h-4 w-4" />
+                            <span>Download</span>
+                          </DropdownMenuItem>
+                        </button>
+                      </DropdownMenuGroup>
+                    </DropdownMenuContent>
+                  </DropdownMenu>
                 </div>
                 <Table>
                   <TableCaption className="pb-5">
