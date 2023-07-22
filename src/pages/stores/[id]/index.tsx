@@ -270,42 +270,24 @@ export default function Store() {
                           const dayOfWeek = getDay(date);
                           const employeeShiftsByDay = shifts[employee.id] || {};
 
-                          const employeeShifts: Shift[] =
-                            employeeShiftsByDay[dayOfWeek] || [];
+                          const shift = employeeShiftsByDay[dayOfWeek];
                           return (
                             <TableCell
                               key={date.valueOf()}
                               className="text-muted-foreground"
                             >
-                              {employeeShifts.length == 0 ? (
+                              {shift == null ? (
                                 <ShiftForm
                                   store={store}
                                   employee={employee}
                                   date={date}
                                 />
                               ) : (
-                                <>
-                                  {employeeShifts
-                                    .sort(function (a, b) {
-                                      const key1 = a.startDate;
-                                      const key2 = b.startDate;
-
-                                      if (key1 < key2) {
-                                        return -1;
-                                      } else if (key1 == key2) {
-                                        return 0;
-                                      } else {
-                                        return 1;
-                                      }
-                                    })
-                                    .map((shift) => (
-                                      <div key={shift.id} className="space-y-1">
-                                        {format(shift.startDate, "h:mma")}-
-                                        {format(shift.endDate, "h:mma")}
-                                        {shift?.notes}
-                                      </div>
-                                    ))}
-                                </>
+                                <div key={shift.id} className="space-y-1">
+                                  {format(shift.startDate, "h:mma")}-
+                                  {format(shift.endDate, "h:mma")}
+                                  {shift?.notes}
+                                </div>
                               )}
                             </TableCell>
                           );

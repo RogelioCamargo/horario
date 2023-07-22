@@ -103,15 +103,8 @@ export const storeRouter = createTRPCRouter({
           continue;
         }
         if (!(dayOfWeek in shiftsByDay)) {
-          shiftsByDay[dayOfWeek] = [];
+          shiftsByDay[dayOfWeek] = shift;
         }
-
-        const shiftArray = shiftsByDay[dayOfWeek];
-        if (!shiftArray) {
-          continue;
-        }
-
-        shiftArray.push(shift);
       }
 
       return { store, shifts: shiftsByEmployee };
@@ -120,6 +113,6 @@ export const storeRouter = createTRPCRouter({
 
 type ShiftsByEmployee = {
   [key: string]: {
-    [index: string]: Shift[];
+    [index: string]: Shift;
   };
 };
