@@ -19,6 +19,7 @@ import {
   format,
   formatISO,
   getDay,
+  isSameDay,
   isToday,
   nextTuesday,
   subDays,
@@ -276,18 +277,19 @@ export default function Store() {
                               key={date.valueOf()}
                               className="text-muted-foreground"
                             >
-                              {shift == null ? (
-                                <ShiftForm
-                                  store={store}
-                                  employee={employee}
-                                  date={date}
-                                />
-                              ) : (
+                              {shift != null &&
+                              isSameDay(shift.startDate, date) ? (
                                 <div key={shift.id} className="space-y-1">
                                   {format(shift.startDate, "h:mma")}-
                                   {format(shift.endDate, "h:mma")}
                                   {shift?.notes}
                                 </div>
+                              ) : (
+                                <ShiftForm
+                                  store={store}
+                                  employee={employee}
+                                  date={date}
+                                />
                               )}
                             </TableCell>
                           );
