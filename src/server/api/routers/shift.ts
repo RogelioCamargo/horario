@@ -1,6 +1,6 @@
 import { shouldAutoRemoveFilter } from "@tanstack/react-table";
 import { TRPCError } from "@trpc/server";
-import { addDays, getDate, getMonth, getYear } from "date-fns";
+import { addDays, getDate, getMonth, getYear, subDays } from "date-fns";
 import { z } from "zod";
 import { createTRPCRouter, privateProcedure } from "~/server/api/trpc";
 
@@ -25,9 +25,10 @@ export const shiftRouter = createTRPCRouter({
         data: input,
       });
     }),
-  copyShiftsFromLastWeek: privateProcedure
+  copyShiftsFromTargetWeek: privateProcedure
     .input(
       z.object({
+        weeksBefore: z.number(),
         startDate: z.date(),
         endDate: z.date(),
         storeId: z.string(),
@@ -52,13 +53,26 @@ export const shiftRouter = createTRPCRouter({
         23,
         59
       );
+      const targetStartDate = subDays(startDate, input.weeksBefore * 7);
+      const targetEndDate = subDays(endDate, input.weeksBefore * 7);
+
+      // delete current week's shifts
+      await ctx.prisma.shift.deleteMany({
+        where: {
+          storeId: input.storeId,
+          startDate: {
+            lte: endDate,
+            gte: startDate,
+          },
+        },
+      });
 
       const lastWeekShifts = await ctx.prisma.shift.findMany({
         where: {
           userId: ctx.userId,
           startDate: {
-            lte: endDate,
-            gte: startDate,
+            lte: targetEndDate,
+            gte: targetStartDate,
           },
           storeId: input.storeId,
         },
