@@ -69,13 +69,13 @@ export default function Store() {
     to: defaultEndDate,
   });
 
-  const { isLoading, data } = api.stores.getStoreWithEmployeeShifts.useQuery({
-    storeId,
-    startDate: formatISO(defaultStartDate),
-    endDate: formatISO(defaultEndDate),
-  });
   const startOfWeekDate = date?.from || defaultStartDate;
   const endOfWeekDate = date?.to || defaultEndDate;
+  const { isLoading, data } = api.stores.getStoreWithEmployeeShifts.useQuery({
+    storeId,
+    startDate: formatISO(startOfWeekDate),
+    endDate: formatISO(endOfWeekDate),
+  });
 
   const weekDates = eachDayOfInterval({
     start: startOfWeekDate,
@@ -280,9 +280,11 @@ export default function Store() {
                               {shift != null &&
                               isSameDay(shift.startDate, date) ? (
                                 <div key={shift.id} className="space-y-1">
-                                  {format(shift.startDate, "h:mma")}-
-                                  {format(shift.endDate, "h:mma")}
-                                  {shift?.notes}
+                                  <div>
+                                    {format(shift.startDate, "h:mma")}-
+                                    {format(shift.endDate, "h:mma")}
+                                  </div>
+                                  <div>{shift?.notes}</div>
                                 </div>
                               ) : (
                                 <ShiftForm
